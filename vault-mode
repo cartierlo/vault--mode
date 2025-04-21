@@ -1,0 +1,74 @@
+# vault_mode_website.py
+
+import http.server
+import socketserver
+import os
+
+PORT = 8000
+
+# Directory for site content
+directory = "vault_mode_site"
+os.makedirs(directory, exist_ok=True)
+
+# HTML content for Vault Mode site
+html_content = """
+<!DOCTYPE html>
+<html lang=\"en\">
+<head>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <meta name=\"description\" content=\"Vault Mode: Unlock the Code. Build in Silence.\">
+    <title>Vault Mode</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #FFD700;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 0.5em;
+        }
+        p {
+            max-width: 600px;
+            margin-bottom: 1.5em;
+        }
+        a.button {
+            background-color: #FFD700;
+            color: #000;
+            padding: 15px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vault Mode</h1>
+    <p>Unlock the Code. Build in Silence. A faceless brand for timeless hustle, productivity, and passive digital income.</p>
+    <a class=\"button\" href=\"https://vaultmode.gumroad.com\" target=\"_blank\">Get the Starter Pack</a>
+    <br><br>
+    <a class=\"button\" href=\"https://cash.app/$theistlo\" target=\"_blank\">Send a Tip</a>
+</body>
+</html>
+"""
+
+# Write HTML content to index.html
+with open(os.path.join(directory, "index.html"), "w") as f:
+    f.write(html_content)
+
+# Set working directory to serve content
+os.chdir(directory)
+
+# Start a simple HTTP server
+handler = http.server.SimpleHTTPRequestHandler
+with socketserver.TCPServer(("", PORT), handler) as httpd:
+    print(f"Serving Vault Mode site at http://localhost:{PORT}")
+    httpd.serve_forever()
